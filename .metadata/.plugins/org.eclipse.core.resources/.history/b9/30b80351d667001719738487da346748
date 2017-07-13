@@ -68,7 +68,7 @@ SKIP :
 {
 "_":ERR
 |"#":HASH
-}
+}^
 
 <D1>MORE:
 {
