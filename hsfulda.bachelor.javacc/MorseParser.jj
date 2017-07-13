@@ -1,0 +1,165 @@
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = true;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = false;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = false;
+}
+
+PARSER_BEGIN(MorseParser)
+
+public class MorseParser {
+
+  public static void main(String args[]) throws ParseException {
+    System.out.println("Beenden Sie die Eingabe durch Return und dann Ctrl-Z (Windows) bzw. Ctrl-D (Unix):");
+    MorseParser parser = new MorseParser(System.in);
+    parser.Input();
+  }
+
+}
+
+PARSER_END(MorseParser)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+
+<DEFAULT> MORE:
+{
+".":P
+|"_":U
+|"#":R
+}
+
+<P> MORE:
+{
+".":P1
+|"#":R
+|"_":U
+}
+
+<P1> MORE:
+{
+".":P2
+|"_":U
+|"#":R
+}
+
+<P2>MORE:
+{
+".":U
+|"#":R1
+|"_":U
+}
+
+<R1>MORE:
+{
+"_":U1
+|"#":R
+|".":P
+}
+
+<U1>MORE:
+{
+"_":U2
+|".":P
+|"#":R
+}
+
+<U2>MORE:
+{
+"_":U3
+|".":P
+|"#":R
+}
+
+<U3>MORE:
+{
+"#":R2
+|"_":U
+|".":P
+}
+
+<R2>MORE:
+{
+".":P4
+|"#":R
+|"_":U
+}
+
+<P4>MORE:
+{
+".":P5
+|"#":R
+|"_":U
+}
+
+<P5>MORE:
+{
+".":P6
+|"#":R
+|"_":U
+}
+
+<P6>MORE:
+{
+"#":R3
+|".":P
+|"_":U
+}
+
+<R3>MORE:
+{
+"#":R4
+|".":P
+|"_":U
+}
+
+<R4>MORE:
+{
+"#":END
+|".":END
+|"_":END
+}
+
+<U> MORE:
+{
+"_":DEFAULT
+|"#":DEFAULT
+|".":P
+}
+
+<R> MORE:
+{
+"#":DEFAULT
+|"_":DEFAULT
+|".":P
+}
+
+<END> TOKEN :
+{
+  <Wort : ";"> : DEFAULT
+}
+
+void Input() :
+{}
+{
+  <Wort> <EOF>
+}
