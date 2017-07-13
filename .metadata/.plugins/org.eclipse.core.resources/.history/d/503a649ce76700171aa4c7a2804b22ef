@@ -1,0 +1,10 @@
+package MorseParser;
+
+public class Snippet {
+	public static void main(String[] args) {
+		".":END
+		|"_":END
+		|"#":END
+	}
+}
+

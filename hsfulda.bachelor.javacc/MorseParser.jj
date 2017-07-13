@@ -3,9 +3,9 @@ options {
   CHOICE_AMBIGUITY_CHECK = 2;
   OTHER_AMBIGUITY_CHECK = 1;
   STATIC = true;
-  DEBUG_PARSER = false;
+  DEBUG_PARSER = true;
   DEBUG_LOOKAHEAD = false;
-  DEBUG_TOKEN_MANAGER = false;
+  DEBUG_TOKEN_MANAGER = true;
   ERROR_REPORTING = true;
   JAVA_UNICODE_ESCAPE = false;
   UNICODE_INPUT = false;
@@ -97,6 +97,7 @@ SKIP :
 ".":ERR
 |"_":ERR
 }
+
 <D3>MORE:
 {
 "#":S
@@ -118,8 +119,8 @@ SKIP :
 
 <S,SU1,SU2>MORE:
 {
-".":ERR
-|"#":HASH
+".":UNSINN
+|"#":UNSINN
 }
 <S>MORE:
 {
@@ -134,14 +135,18 @@ SKIP :
 "_":SU3
 }
 
-
-
 <END>MORE:
 {
 ".":END
 |"_":END
 |"#":END
 }
+
+<UNSINN>TOKEN:
+{
+<unsinn: ";">: UNSINN
+}
+
 
 <END> TOKEN :
 {
