@@ -57,11 +57,36 @@ SKIP :
 
 <HASH> MORE:
 {
-".":ERR
+".":P1
 |"_":ERR
 |"#":DEFAULT
 }
 
+<P1> MORE:
+{
+".": P2
+|"#":HASH
+|"_":ERR
+}
+<P2> MORE:
+{
+".": P3
+|"#":HASH
+|"_":ERR
+}
+<P3> MORE:
+{
+"#": ES
+|"_":ERR
+|".":ERR
+}
+
+<ES> MORE:
+{
+"#": UNSINN
+|"_": UNSINN
+|".": UNSINN
+}
 
 
 <D1,D2,SO,SOD1,SOD2>MORE:
@@ -116,7 +141,6 @@ SKIP :
 }
 
 
-
 <S,SU1,SU2>MORE:
 {
 ".":UNSINN
@@ -142,11 +166,18 @@ SKIP :
 |"#":END
 }
 
-<UNSINN>TOKEN:
+<UNSINN>MORE:
 {
-<unsinn: ";">: UNSINN
+".":UNSINN
+|"_":UNSINN
+|"#":UNSINN
 }
 
+
+<UNSINN>TOKEN:
+{
+<unsinn: ";">: DEFAULT
+}
 
 <END> TOKEN :
 {
